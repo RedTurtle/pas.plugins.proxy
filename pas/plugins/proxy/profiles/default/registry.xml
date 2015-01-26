@@ -1,0 +1,3 @@
+<registry>
+    <records interface="pas.plugins.proxy.interfaces.IProxyRolesSettings" />
+</registry>

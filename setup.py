@@ -25,7 +25,7 @@ setup(name='pas.plugins.proxy',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'plone.api'
       ],
       entry_points="""
       # -*- Entry points: -*-

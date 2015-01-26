@@ -1,8 +1,67 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="pas.plugins.proxy">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <include package="plone.app.registry" />
+  <i18n:registerTranslations directory="locales" />
+  
+  <!--Register permission id-->
+  <permission 
+     id="pas.plugins.proxy.HandleProxyRoles" 
+     title="pas.plugins.proxy: Handle proxy roles"
+     />
+  <permission 
+     id="pas.plugins.proxy.DelegateDelegatedRole" 
+     title="Sharing page: Delegate Delegated role"
+     /> 
 
+  <!-- <include file="upgrades.zcml" /> -->
+  <include package=".browser" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Pas Plugins Proxy"
+      directory="profiles/default"
+      description="Install pas.plugins.proxy"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+  
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall: Pas Plugins Proxy"
+      directory="profiles/uninstall"
+      description="Uninstall pas.plugins.proxy"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+    name="pas.plugins.proxy-various"
+    title="Additional Rolex Proxy setup"
+    description="PAS plugin installer"
+    handler=".setuphandlers.importVarious">
+  </genericsetup:importStep>
+
+  <utility
+    component=".vocabularies.UsersVocabularyFactory"
+    name="pas.plugins.proxy.vocabularies.UsersVocabulary"
+    />
+
+  <five:registerClass
+    class=".plugin.ProxyUserRolesManager"
+    meta_type="Proxy User Roles Manager"
+    permission="zope2.ViewManagementScreens"
+    addview="add-proxy-roles-plugin"
+    /> 
+  <browser:page
+    name="add-proxy-roles-plugin"
+    for="zope.browser.interfaces.IAdding"
+    class=".plugin.AddForm"
+    template="addform.pt"
+    permission="zope2.ViewManagementScreens"
+    />
 </configure>

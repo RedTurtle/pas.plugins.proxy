@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<object name="portal_controlpanel" meta_type="Plone Control Panel Tool">
+  <configlet title="Pas Plugins Proxy" action_id="ProxyRolesSettings"
+             remove="True" />
+</object>
