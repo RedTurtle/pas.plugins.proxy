@@ -3,6 +3,8 @@ from zope.interface import Interface
 from zope import schema
 from pas.plugins.proxy import pppMessageFactory as _
 from pas.plugins.proxy.custom_fields import IProxyValueField, PersistentObject
+from plone.directives import form
+from  pas.plugins.proxy.custom_fields import ProxyUsersMultiFieldWidget
 
 
 class IPasPluginsProxyLayer(Interface):
@@ -13,6 +15,7 @@ class IProxyRolesSettings(Interface):
     """Settings used in the control panel for sitesearch: General settings
     """
 
+    form.widget(proxy_roles=ProxyUsersMultiFieldWidget)
     proxy_roles = schema.Tuple(
             title=_(u'Proxy roles'),
             description=_('help_proxy_roles',

@@ -12,12 +12,12 @@
   
   <!--Register permission id-->
   <permission 
-     id="pas.plugins.proxy.HandleProxyRoles" 
-     title="pas.plugins.proxy: Handle proxy roles"
+     id="pas.plugins.proxy.AccessProxyRolesPanel" 
+     title="pas.plugins.proxy: Access proxy roles panel"
      />
   <permission 
-     id="pas.plugins.proxy.DelegateDelegatedRole" 
-     title="Sharing page: Delegate Delegated role"
+     id="pas.plugins.proxy.ManageProxyRoles" 
+     title="pas.plugins.proxy: Manage proxy roles"
      /> 
 
   <!-- <include file="upgrades.zcml" /> -->
@@ -45,6 +45,14 @@
     description="PAS plugin installer"
     handler=".setuphandlers.importVarious">
   </genericsetup:importStep>
+
+  <!-- CUSTOM MULTILINE WIDGET -->
+  <class class=".custom_fields.ProxyUsersMultiWidget">
+      <require
+          permission="zope.Public"
+          interface=".custom_fields.IProxyUsersMultiWidget"
+      />
+  </class>
 
   <utility
     component=".vocabularies.UsersVocabularyFactory"

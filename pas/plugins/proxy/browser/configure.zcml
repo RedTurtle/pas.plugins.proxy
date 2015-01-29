@@ -7,7 +7,7 @@
         name="proxy-roles-settings"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".controlpanel.ProxyRolesControlPanel"
-        permission="pas.plugins.proxy.HandleProxyRoles"
+        permission="pas.plugins.proxy.AccessProxyRolesPanel"
         layer="pas.plugins.proxy.interfaces.IPasPluginsProxyLayer"
         />
 

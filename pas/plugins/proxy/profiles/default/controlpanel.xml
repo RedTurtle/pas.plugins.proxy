@@ -8,6 +8,6 @@
     url_expr="string:${portal_url}/@@proxy-roles-settings"
     visible="True" i18n:attributes="title"
     icon_expr="">
-  <permission>pas.plugins.proxy: Handle proxy roles</permission>
+  <permission>pas.plugins.proxy: Access proxy roles panel</permission>
  </configlet>
 </object>

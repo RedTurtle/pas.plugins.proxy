@@ -1,7 +1,13 @@
 <?xml version="1.0"?>
 <rolemap>
   <permissions>
-    <permission name="pas.plugins.proxy: Handle proxy roles"
+    <permission name="pas.plugins.proxy: Access proxy roles panel"
+                acquire="True">
+      <role name="Manager"/>
+      <role name="Member"/>
+      <role name="Site Administrator"/>
+    </permission>
+    <permission name="pas.plugins.proxy: Manage proxy roles"
                 acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
