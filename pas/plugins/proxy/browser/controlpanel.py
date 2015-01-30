@@ -35,7 +35,7 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
             delegated = proxy_role[1]
             user = api.user.get_current()
             if not api.user.get(username=delegated) or not api.user.get(username=delegator):
-                return _(u"You should select an existend username.")
+                return _(u"You should select an existent username.")
             if not user.checkPermission(
                 'pas.plugins.proxy: Manage proxy roles',
                 self.context) and user.getProperty('id') != delegator:
