@@ -24,6 +24,7 @@ setup(name='pas.plugins.proxy',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
+          'collective.js.jqueryui',
           'setuptools',
           'plone.api',
           'plone.directives.form'
