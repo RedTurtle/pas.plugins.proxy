@@ -1,0 +1,20 @@
+
+div[class$=".delegator"] {
+    float: left;
+    clear: none;
+}
+
+div[class$=".delegated"] {
+    float: right;
+    clear: none;
+}
+
+.template-proxy-roles-settings .multi-widget-field,
+.template-proxy-roles-settings .formControls {
+    clear: both;
+}
+
+.template-proxy-roles-settings .formControls:not(.multi-widget-buttons) {
+    border-top: 1px solid black;
+    margin-top: 2em;
+}
