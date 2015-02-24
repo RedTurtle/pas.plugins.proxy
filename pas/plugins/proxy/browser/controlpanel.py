@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager, getSecurityManager
+from AccessControl.User import UnrestrictedUser
 from pas.plugins.proxy import pppMessageFactory as _
 from pas.plugins.proxy.custom_fields import ProxyValueField
 from pas.plugins.proxy.interfaces import IProxyRolesSettings
@@ -6,9 +8,17 @@ from plone import api
 from plone.app.registry.browser import controlpanel
 from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
+from z3c.form import interfaces
 from z3c.form.form import applyChanges
 from z3c.form.interfaces import WidgetActionExecutionError
 from zope.interface import Invalid
+
+
+class UnrestrictedMember(UnrestrictedUser):
+    """Unrestricted user that still has an id."""
+    def getId(self):
+        """Return the ID of the user."""
+        return self.getUserName()
 
 
 class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
@@ -18,6 +28,16 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
     label = _(u"Proxy Roles Settings")
     description = _(u"help_proxyroles_settings_editform",
                     default=u"Set proxy roles.")
+
+    def updateWidgets(self):
+        super(ProxyRolesSettingsEditForm, self).updateWidgets()
+        user = api.user.get_current()
+        portal = api.portal.get()
+        if not user.checkPermission('pas.plugins.proxy: Manage proxy roles',
+                                portal):
+            # if user can't manage proxies, set delegators widgets to readonly mode
+            for roles_widget in self.widgets['proxy_roles'].widgets:
+                roles_widget.subform.widgets['delegator'].mode = interfaces.DISPLAY_MODE
 
     def validate_values(self, data):
         """
@@ -45,7 +65,6 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
 
     @button.buttonAndHandler(_('Save'), name='save')
     def handleSave(self, action):
-        """"""
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
@@ -57,8 +76,17 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
                 Invalid(proxy_validation_msg))
         self.applyChanges(data)
         #reindex allowedRolesAndUsers index, to update the permissions in catalog
+        #we need to set new security manager, to update catalog correctly
         catalog = api.portal.get_tool(name='portal_catalog')
-        catalog.reindexIndex('allowedRolesAndUsers', self.request)
+        acl_users = api.portal.get_tool('acl_users')
+        try:
+            old_sm = getSecurityManager()
+            tmp_user = UnrestrictedMember(old_sm.getUser().getId(), '', ['Manager'], '')
+            tmp_user = tmp_user.__of__(acl_users)
+            newSecurityManager(None, tmp_user)
+            catalog.reindexIndex('allowedRolesAndUsers', self.request)
+        finally:
+            setSecurityManager(old_sm)
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
         self.context.REQUEST.RESPONSE.redirect("@@proxy-roles-settings")
@@ -101,6 +129,5 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
 
 
 class ProxyRolesControlPanel(controlpanel.ControlPanelFormWrapper):
-    """Sitesearch settings control panel.
-    """
+    """Settings control panel"""
     form = ProxyRolesSettingsEditForm

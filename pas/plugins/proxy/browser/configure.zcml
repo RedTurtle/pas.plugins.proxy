@@ -10,13 +10,6 @@
         permission="pas.plugins.proxy.AccessProxyRolesPanel"
         layer="pas.plugins.proxy.interfaces.IPasPluginsProxyLayer"
         />
-    <browser:page
-        name="proxy-search-users"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class=".search_users_view.SearchUsersView"
-        permission="pas.plugins.proxy.AccessProxyRolesPanel"
-        layer="pas.plugins.proxy.interfaces.IPasPluginsProxyLayer"
-        />
 
     <browser:resourceDirectory
          name="pas.plugins.proxy.static"

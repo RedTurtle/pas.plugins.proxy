@@ -1,6 +1,3 @@
 <registry>
     <records interface="pas.plugins.proxy.interfaces.IProxyRolesSettings" />
-    <records interface="collective.js.jqueryui.controlpanel.IJQueryUIPlugins">
-      <value key="ui_autocomplete">True</value>
-    </records>
 </registry>

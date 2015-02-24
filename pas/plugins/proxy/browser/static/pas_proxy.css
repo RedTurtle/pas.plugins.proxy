@@ -18,3 +18,12 @@ div[class$=".delegated"] {
     border-top: 1px solid black;
     margin-top: 2em;
 }
+
+.template-proxy-roles-settings .multi-widget-field br {
+    display: none;
+}
+
+.template-proxy-roles-settings input.multi-widget-checkbox {
+    float: left;
+    margin-top: 2px;
+}

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from pas.plugins.proxy import pppMessageFactory as _
 from plone import api
+from plone.memoize import view
 from plone.registry.field import PersistentField
 from z3c.form import widget
 from z3c.form.browser.multi import MultiWidget
@@ -14,9 +15,10 @@ from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.interface import Interface, implements
 from zope.interface import Invalid
+from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IMinMaxLen
-from plone.memoize import view
 
 
 class IProxyUsersMultiWidget(IMultiWidget):
@@ -114,12 +116,26 @@ def ProxyUsersMultiFieldWidget(field, request):
     return widget.FieldWidget(field, ProxyUsersMultiWidget(request))
 
 
+@provider(IContextAwareDefaultFactory)
+def default_delegator(context):
+    """
+    If the user can't manage proxy roles, return his username as default
+    """
+    user = api.user.get_current()
+    portal = api.portal.get()
+    if user.checkPermission('pas.plugins.proxy: Manage proxy roles',
+                            portal):
+        return u""
+    return user.getProperty('id').decode('utf-8')
+
+
 class IProxyValueField(Interface):
     delegator = schema.TextLine(
             title=_("ppp_delegator_label", default=u"Delegator user"),
             description=_("ppp_delegator_help",
                           default=u'Select which user should delegate his roles.'),
             required=True,
+            defaultFactory=default_delegator,
     )
     delegated = schema.TextLine(
             title=_("ppp_delegated_label", default=u"Delegated user"),
