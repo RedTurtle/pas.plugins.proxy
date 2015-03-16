@@ -27,8 +27,8 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
     id = "ProxyRolesSettingsEditForm"
     label = _(u"Proxy Roles Settings")
     description = _(u"help_proxyroles_settings_editform",
-                    default=u"Set proxy roles.")
-
+                    default=u"Set proxy roles. Changes become effective only after pressing the SAVE button.")
+    
     def updateWidgets(self):
         super(ProxyRolesSettingsEditForm, self).updateWidgets()
         user = api.user.get_current()

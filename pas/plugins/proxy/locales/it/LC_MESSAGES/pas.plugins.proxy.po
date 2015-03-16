@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-01-30 07:56+0000\n"
+"POT-Creation-Date: 2015-03-16 08:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: pas.plugins.proxy\n"
 
-#: ./browser/controlpanel.py:66
+#: ./browser/controlpanel.py:94
 msgid "Cancel"
 msgstr "Annulla"
 
-#: ./browser/controlpanel.py:62
+#: ./browser/controlpanel.py:90
 msgid "Changes saved"
 msgstr "Modifiche salvate"
 
-#: ./browser/controlpanel.py:32
+#: ./browser/controlpanel.py:52
 msgid "Do not duplicate entries."
 msgstr "Non è possibile duplicare le deleghe."
 
-#: ./browser/controlpanel.py:68
+#: ./browser/controlpanel.py:96
 msgid "Edit cancelled"
 msgstr "Modifiche annullate"
 
@@ -37,19 +37,19 @@ msgstr "Modifiche annullate"
 msgid "Pas Plugins Proxy"
 msgstr ""
 
-#: ./browser/controlpanel.py:18
+#: ./browser/controlpanel.py:28
 msgid "Proxy Roles Settings"
 msgstr "Configurazione deleghe di ruolo"
 
-#: ./browser/controlpanel.py:46
+#: ./browser/controlpanel.py:66
 msgid "Save"
 msgstr "Salva"
 
-#: ./browser/controlpanel.py:42
+#: ./browser/controlpanel.py:62
 msgid "You cannot delegate other users."
 msgstr "Non puoi dare deleghe ad utenti diversi dal tuo."
 
-#: ./browser/controlpanel.py:38
+#: ./browser/controlpanel.py:58
 msgid "You should select an existent username."
 msgstr "Devi selezionare un utente esistente."
 
@@ -57,28 +57,28 @@ msgstr "Devi selezionare un utente esistente."
 msgid "help_proxy_roles"
 msgstr ""
 
-#. Default: "Set proxy roles."
-#: ./browser/controlpanel.py:19
+#. Default: "Set proxy roles. Changes become effective only after pressing the SAVE button."
+#: ./browser/controlpanel.py:29
 msgid "help_proxyroles_settings_editform"
-msgstr "Imposta le deleghe."
+msgstr "Imposta le deleghe di ruolo. Le modifiche diventano valide solo dopo avere premuto l'apposito tasto SALVA."
 
 #. Default: "Select which user should acquire delegator roles."
-#: ./custom_fields.py:126
+#: ./custom_fields.py:142
 msgid "ppp_delegated_help"
 msgstr "Seleziona quale utente deve ereditare i ruoli del delegante."
 
 #. Default: "Delegated user"
-#: ./custom_fields.py:125
+#: ./custom_fields.py:141
 msgid "ppp_delegated_label"
 msgstr "Utente delegato"
 
 #. Default: "Select which user should delegate his roles."
-#: ./custom_fields.py:120
+#: ./custom_fields.py:135
 msgid "ppp_delegator_help"
 msgstr "Seleziona quale utente deve delegare i suoi ruoli."
 
 #. Default: "Delegator user"
-#: ./custom_fields.py:119
+#: ./custom_fields.py:134
 msgid "ppp_delegator_label"
 msgstr "Utente delegante"
 
