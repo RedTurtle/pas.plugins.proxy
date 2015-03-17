@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-16 08:06+0000\n"
+"POT-Creation-Date: 2015-03-17 07:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: pas.plugins.proxy\n"
 
-#: ./browser/controlpanel.py:94
+#: ./browser/controlpanel.py:95
 msgid "Cancel"
 msgstr ""
 
-#: ./browser/controlpanel.py:90
+#: ./browser/controlpanel.py:91
 msgid "Changes saved"
 msgstr ""
 
-#: ./browser/controlpanel.py:52
+#: ./browser/controlpanel.py:53
 msgid "Do not duplicate entries."
 msgstr ""
 
-#: ./browser/controlpanel.py:96
+#: ./browser/controlpanel.py:97
 msgid "Edit cancelled"
 msgstr ""
 
@@ -37,19 +37,19 @@ msgstr ""
 msgid "Pas Plugins Proxy"
 msgstr ""
 
-#: ./browser/controlpanel.py:28
+#: ./browser/controlpanel.py:29
 msgid "Proxy Roles Settings"
 msgstr ""
 
-#: ./browser/controlpanel.py:66
+#: ./browser/controlpanel.py:67
 msgid "Save"
 msgstr ""
 
-#: ./browser/controlpanel.py:62
+#: ./browser/controlpanel.py:63
 msgid "You cannot delegate other users."
 msgstr ""
 
-#: ./browser/controlpanel.py:58
+#: ./browser/controlpanel.py:59
 msgid "You should select an existent username."
 msgstr ""
 
@@ -57,8 +57,8 @@ msgstr ""
 msgid "help_proxy_roles"
 msgstr ""
 
-#. Default: "Set proxy roles. Changes become effective only after pressing the SAVE button."
-#: ./browser/controlpanel.py:29
+#. Default: "Set proxy roles."
+#: ./browser/controlpanel.py:30
 msgid "help_proxyroles_settings_editform"
 msgstr ""
 
@@ -90,5 +90,15 @@ msgstr ""
 #. Default: "Proxy roles"
 #: ./interfaces.py:20
 msgid "ppp_proxy_roles"
+msgstr ""
+
+#. Default: "Changes become effective only after pressing the SAVE button."
+#: ./browser/controlpanel.pt:17
+msgid "warning_save_label"
+msgstr ""
+
+#. Default: "Warning"
+#: ./browser/controlpanel.pt:16
+msgid "warning_save_type"
 msgstr ""
 

@@ -6,6 +6,7 @@ from pas.plugins.proxy.custom_fields import ProxyValueField
 from pas.plugins.proxy.interfaces import IProxyRolesSettings
 from plone import api
 from plone.app.registry.browser import controlpanel
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form import interfaces
@@ -27,8 +28,8 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
     id = "ProxyRolesSettingsEditForm"
     label = _(u"Proxy Roles Settings")
     description = _(u"help_proxyroles_settings_editform",
-                    default=u"Set proxy roles. Changes become effective only after pressing the SAVE button.")
-    
+                    default=u"Set proxy roles.")
+
     def updateWidgets(self):
         super(ProxyRolesSettingsEditForm, self).updateWidgets()
         user = api.user.get_current()
@@ -130,4 +131,5 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
 
 class ProxyRolesControlPanel(controlpanel.ControlPanelFormWrapper):
     """Settings control panel"""
+    index = ViewPageTemplateFile('controlpanel.pt')
     form = ProxyRolesSettingsEditForm
