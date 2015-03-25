@@ -15,6 +15,11 @@ class IProxyRolesSettings(Interface):
     """Settings used in the control panel for sitesearch: General settings
     """
 
+    version_number = schema.Int(
+        title=_('ppp_version_number',
+                u'Proxy roles'),
+        required=False,)
+
     form.widget(proxy_roles=ProxyUsersMultiFieldWidget)
     proxy_roles = schema.Tuple(
             title=_('ppp_proxy_roles',

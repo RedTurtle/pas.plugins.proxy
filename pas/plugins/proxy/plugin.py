@@ -19,20 +19,13 @@ from time import time
 from zope.interface import implements
 
 
-def _proxied_username_cachekey(method, self, username):
+def _proxy_users_cachekey(method, self, username):
     """
     method for ramcache that store time and username
     """
     timestamp = time() // (60 * 2 * 1)
-    return "%s:%s" % (timestamp, username)
-
-
-def _proxy_username_cachekey(method, self, username):
-    """
-    method for ramcache that store time and username
-    """
-    timestamp = time() // (60 * 2 * 1)
-    return "%s:%s" % (timestamp, username)
+    version_number = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.version_number')
+    return "%s:%s:%s" % (timestamp, username, version_number)
 
 
 class AddForm(BrowserView):
@@ -68,7 +61,7 @@ class ProxyUserRolesManager(LocalRolesManager):
         self._setId(id)
         self.title = title
 
-    @ram.cache(_proxied_username_cachekey)
+    @ram.cache(_proxy_users_cachekey)
     def get_delegator_list(self, username):
         """
         for a given username, return a list of usernames that delegate him
@@ -76,7 +69,7 @@ class ProxyUserRolesManager(LocalRolesManager):
         proxy_roles = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.proxy_roles')
         return [x.delegator for x in proxy_roles if x.delegated == username]
 
-    @ram.cache(_proxy_username_cachekey)
+    @ram.cache(_proxy_users_cachekey)
     def get_delegated_list(self, username):
         """
         for a given username, return a list of delegated users

@@ -34,6 +34,7 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
         super(ProxyRolesSettingsEditForm, self).updateWidgets()
         user = api.user.get_current()
         portal = api.portal.get()
+        self.widgets['version_number'].mode = interfaces.HIDDEN_MODE
         if not user.checkPermission('pas.plugins.proxy: Manage proxy roles',
                                 portal):
             # if user can't manage proxies, set delegators widgets to readonly mode
@@ -75,6 +76,9 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
         if proxy_validation_msg:
             raise WidgetActionExecutionError('proxy_roles',
                 Invalid(proxy_validation_msg))
+        if not data.get('version_number'):
+            data['version_number'] = 0
+        data['version_number'] = data['version_number'] + 1
         self.applyChanges(data)
         #reindex allowedRolesAndUsers index, to update the permissions in catalog
         #we need to set new security manager, to update catalog correctly
