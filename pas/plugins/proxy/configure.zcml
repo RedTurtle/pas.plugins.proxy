@@ -27,7 +27,7 @@
       name="default"
       title="Pas Plugins Proxy"
       directory="profiles/default"
-      description="Install pas.plugins.proxy"
+      description="A PAS plugin for proxy roles between users"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
   

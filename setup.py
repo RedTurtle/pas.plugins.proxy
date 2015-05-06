@@ -5,7 +5,7 @@ version = '0.1.0'
 
 setup(name='pas.plugins.proxy',
       version=version,
-      description="A PAS plugin for proxy roles between users",
+      description="A Plone PAS plugin for proxy roles between users",
       long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.rst")).read(),
       # Get more strings from
