@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_css">
+
+    <stylesheet
+	    id="++resource++pas.plugins.proxy.static/pas_proxy.css"
+        remove="True"/>
+</object>
