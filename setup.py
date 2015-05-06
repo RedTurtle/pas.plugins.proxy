@@ -5,13 +5,14 @@ version = '0.1.0'
 
 setup(name='pas.plugins.proxy',
       version=version,
-      description="A pas plugin for roles proxy between users",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      description="A PAS plugin for proxy roles between users",
+      long_description=open("README.rst").read() + "\n" +
+                       open(os.path.join("docs", "HISTORY.rst")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Programming Language :: Python",
         ],
       keywords='pas plugin proxy',
@@ -30,7 +31,6 @@ setup(name='pas.plugins.proxy',
       ],
       entry_points="""
       # -*- Entry points: -*-
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
