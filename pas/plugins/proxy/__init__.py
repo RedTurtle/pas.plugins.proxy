@@ -15,4 +15,5 @@ def initialize(context):
         permission=add_user_folders,
         constructors=(AddForm,),
         visibility=None,
+        icon='browser/static/proxy.png'
         )

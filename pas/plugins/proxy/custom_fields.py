@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from pas.plugins.proxy import pppMessageFactory as _
 from plone import api
 from plone.memoize import view
@@ -130,14 +131,14 @@ def default_delegator(context):
 
 
 class IProxyValueField(Interface):
-    delegator = schema.TextLine(
+    delegator = schema.ASCIILine(
             title=_("ppp_delegator_label", default=u"Delegator user"),
             description=_("ppp_delegator_help",
                           default=u'Select which user should delegate his roles.'),
             required=True,
             defaultFactory=default_delegator,
     )
-    delegated = schema.TextLine(
+    delegated = schema.ASCIILine(
             title=_("ppp_delegated_label", default=u"Delegated user"),
             description=_("ppp_delegated_help",
                           default=u'Select which user should acquire delegator roles.'),
@@ -147,9 +148,14 @@ class IProxyValueField(Interface):
 
 class ProxyValueField(object):
     implements(IProxyValueField)
+    
+    def __init__(self, delegator=None, delegated=None):
+        self.delegator = delegator
+        self.delegated = delegated
 
 
 class PersistentObject(PersistentField, schema.Object):
     pass
+
 
 registerFactoryAdapter(IProxyValueField, ProxyValueField)

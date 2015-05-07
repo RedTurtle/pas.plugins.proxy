@@ -16,4 +16,12 @@
          directory="static"
          />
 
+  <browser:page
+        name="add-proxy-user-roles-plugin"
+        for="zope.browser.interfaces.IAdding"
+        class="..plugin.AddForm"
+		template="../addform.pt"
+        permission="zope2.ViewManagementScreens"
+        />
+
 </configure>

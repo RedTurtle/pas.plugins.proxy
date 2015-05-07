@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from zope.interface import Interface
-from zope import schema
+
+from pas.plugins.proxy.custom_fields import ProxyUsersMultiFieldWidget
 from pas.plugins.proxy import pppMessageFactory as _
-from pas.plugins.proxy.custom_fields import IProxyValueField, PersistentObject
+from pas.plugins.proxy.custom_fields import IProxyValueField 
+from pas.plugins.proxy.custom_fields import PersistentObject
 from plone.directives import form
-from  pas.plugins.proxy.custom_fields import ProxyUsersMultiFieldWidget
+from zope import schema
+from zope.interface import Interface
 
 
 class IPasPluginsProxyLayer(Interface):

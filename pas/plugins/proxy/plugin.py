@@ -17,11 +17,12 @@ from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 from time import time
 from zope.interface import implements
+from zope.annotation.interfaces import IAnnotations
 
 
 def _proxy_users_cachekey(method, self, username):
     """
-    method for ramcache that store time and username
+    method for ramcache that store time and username and a configuration version from registry
     """
     timestamp = time() // (60 * 2 * 1)
     version_number = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.version_number')
@@ -48,7 +49,7 @@ class ProxyUserRolesManager(LocalRolesManager):
     PlonePAS-specific local role permission checking.
     """
 
-    meta_type = "Proxy User Roles Manager"
+    meta_type = "Proxy User's Roles Manager"
     security = ClassSecurityInfo()
 
     implements(
@@ -61,30 +62,46 @@ class ProxyUserRolesManager(LocalRolesManager):
         self._setId(id)
         self.title = title
 
-    @ram.cache(_proxy_users_cachekey)
-    def get_delegator_list(self, username):
+    #@ram.cache(_proxy_users_cachekey)
+    def get_delegators_of(self, username):
         """
         for a given username, return a list of usernames that delegate him
         """
         proxy_roles = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.proxy_roles')
         return [x.delegator for x in proxy_roles if x.delegated == username]
 
-    @ram.cache(_proxy_users_cachekey)
-    def get_delegated_list(self, username):
+    #@ram.cache(_proxy_users_cachekey)
+    def get_my_delegateds(self, username):
         """
-        for a given username, return a list of delegated users
+        for a given username, return a list of users delegated by him
         """
         proxy_roles = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.proxy_roles')
         return [x.delegated for x in proxy_roles if x.delegator == username]
 
     # IGroupsPlugin implementation
     def getGroupsForPrincipal(self, principal, request=None):
-        delegators = self.get_delegator_list(principal.getId())
+        if principal.getId()=='AuthenticatedUsers':
+            return tuple()
+        request = request or self.REQUEST
+        annotations = IAnnotations(request)
+        if annotations.get('ppp.user', None)==None:
+            annotations['ppp.user'] = principal.getId()
+        elif annotations.get('ppp.user', None)!=principal.getId():
+            return tuple()
+        stored = annotations.get('ppp.getGroupsForPrincipal', None)
+        if stored:
+            return stored
+        delegators = self.get_delegators_of(principal.getId())
         groups = set()
         for delegator in delegators:
-            delegator_groups = [x.getId() for x in api.group.get_groups(username=delegator)]
+            original_delegator_groups = api.group.get_groups(username=delegator)
+            #delegator_groups = [g.getId() for g in original_delegator_groups]
+            # BBB: this prevent infinite proxy of groups of user A that proxy user B that proxy user C
+            delegator_groups = [g.getId() for g in original_delegator_groups if delegator in g.getGroupMemberIds()]
             groups.update(delegator_groups)
-        return tuple(groups)
+        groups = tuple(groups)
+        annotations['ppp.getGroupsForPrincipal'] = groups
+        return groups
 
     #IRolesPlugin implementation
     security.declarePrivate('getRolesForPrincipal')
@@ -92,7 +109,18 @@ class ProxyUserRolesManager(LocalRolesManager):
         """
         return a list of global roles of the delegator user
         """
-        delegators = self.get_delegator_list(principal.getId())
+        if principal.getId()=='AuthenticatedUsers':
+            return tuple()
+        request = request or self.REQUEST
+        annotations = IAnnotations(request)
+        if annotations.get('ppp.user', None)==None:
+            annotations['ppp.user'] = principal.getId()
+        elif annotations.get('ppp.user', None)!=principal.getId():
+            return tuple()
+        stored = annotations.get('ppp.getRolesForPrincipal', None)
+        if stored:
+            return stored
+        delegators = self.get_delegators_of(principal.getId())
         roles = set()
         for delegator in delegators:
             # delegated role need to be checked
@@ -101,9 +129,12 @@ class ProxyUserRolesManager(LocalRolesManager):
             # request = getRequest()
             # annotations = IAnnotations(request)
             # if annotations.get('proxy_roles') == principal.getId():
-            #     roles.append('Delegated')
+            #     roles.append('Delegate')
             roles.update(api.user.get_roles(username=delegator))
-        return tuple(roles)
+        roles = tuple(roles)
+        annotations['ppp.getRolesForPrincipal'] = roles
+        ### obj.get_local_roles
+        return roles
 
     # ILocalRolesPlugin implementation
     security.declarePrivate("getRolesInContext")
@@ -111,7 +142,16 @@ class ProxyUserRolesManager(LocalRolesManager):
         """
         return a list of global roles of the delegator user
         """
-        delegators = self.get_delegator_list(user.getId())
+        request = self.REQUEST
+        annotations = IAnnotations(request)
+        if annotations.get('ppp.user', None)==None:
+            annotations['ppp.user'] = user.getId()
+        elif annotations.get('ppp.user', None)!=user.getId():
+            return tuple()
+        stored = annotations.get('ppp.getRolesInContext', None)
+        if stored:
+            return stored
+        delegators = self.get_delegators_of(user.getId())
         roles = set()
         for delegator in delegators:
             # delegated role need to be checked
@@ -120,9 +160,13 @@ class ProxyUserRolesManager(LocalRolesManager):
             # request = getRequest()
             # annotations = IAnnotations(request)
             # if annotations.get('proxy_roles') == user.getId():
-            #     roles.append('Delegated')
+            #     roles.append('Delegate')
             roles.update(api.user.get_roles(username=delegator, obj=object))
-        return tuple(roles)
+            #roles.update([[r for r in lr[1]] for lr in object.get_local_roles() if lr[0]==delegator])
+        roles = tuple(roles)
+        annotations['ppp.getRolesInContext'] = roles
+        ### obj.get_local_roles
+        return roles
 
     #security.declarePrivate( 'checkLocalRolesAllowed' )
     def checkLocalRolesAllowed(self, user, object, object_roles):
@@ -131,11 +175,18 @@ class ProxyUserRolesManager(LocalRolesManager):
         """
         inner_obj = aq_inner(object)
         user_id = user.getId()
+        request = self.REQUEST
+
+        annotations = IAnnotations(request)
+        if annotations.get('ppp.user', None)==None:
+            annotations['ppp.user'] = user_id
+        elif annotations.get('ppp.user', None)!=user_id:
+            return None
 
         group_ids = user.getGroups()
         principal_ids = list(group_ids)
         principal_ids.insert(0, user_id)
-        delegators = self.get_delegator_list(user.getId())
+        delegators = self.get_delegators_of(user.getId())
         for delegator in delegators:
             # delegated role need to be checked
             # from zope.globalrequest import getRequest
@@ -192,11 +243,12 @@ class ProxyUserRolesManager(LocalRolesManager):
     def getAllLocalRolesInContext(self, context):
         """
         return a map of local roles.
-        If a user has a local role, and he delegated his roles to other users,
+        If a user has a local role, and he delegates his roles to other users,
         add these users to the role mapping
         """
         roles = {}
         object = aq_inner(context)
+        
         while True:
 
             local_roles = getattr(object, '__ac_local_roles__', None)
@@ -216,11 +268,12 @@ class ProxyUserRolesManager(LocalRolesManager):
                     roles[principal].update(localroles)
 
                     #set also the proxied users
-                    delegated_users = self.get_delegated_list(principal)
+                    delegated_users = self.get_my_delegateds(principal)
                     for userid in delegated_users:
                         if not userid in roles:
                             roles[userid] = set()
                         roles[userid].update(localroles)
+
             inner = aq_inner(object)
             parent = aq_parent(inner)
 

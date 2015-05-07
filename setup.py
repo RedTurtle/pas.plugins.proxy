@@ -2,6 +2,8 @@ from setuptools import setup, find_packages
 import os
 
 version = '0.1.0'
+tests_require = ['plone.app.testing', ]
+
 
 setup(name='pas.plugins.proxy',
       version=version,
@@ -24,9 +26,13 @@ setup(name='pas.plugins.proxy',
       namespace_packages=['pas', 'pas.plugins'],
       include_package_data=True,
       zip_safe=False,
+      tests_require=tests_require,
+      extras_require=dict(test=tests_require),
       install_requires=[
           'setuptools',
+          'Products.PlonePAS',
           'plone.api',
+          'plone.app.registry',
           'plone.directives.form',
       ],
       entry_points="""
