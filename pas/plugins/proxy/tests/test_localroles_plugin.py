@@ -50,16 +50,6 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
         self.assertTrue('Editor' in api.user.get_roles(username='user1', obj=self.folder))
 
-    def test_normal_user_roles_cquired(self):
-        """Tests that a delegator roles is not influenced by proxy his roles"""
-        portal = self.layer['portal']
-        request = self.layer['request']
-        request.set('ACTUAL_URL', 'http://nohost/plone/folder/subfolder')
-        login(portal, 'user1')
-        output = self.folder.subfolder()
-        self.assertTrue(u'id="contentview-edit"' in output) # can edit
-        self.assertTrue('Editor' in api.user.get_roles(username='user1', obj=self.folder.subfolder))
-
     def test_delegated_get_roles(self):
         """Tests that a delegated user take delegator's roles"""
         portal = self.layer['portal']
@@ -69,6 +59,7 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         output = self.folder()
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
         self.assertTrue('Editor' in api.user.get_roles(username='user2', obj=self.folder))
+        self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder))
 
     def test_delegated_get_roles_acquired(self):
         """Tests that a delegated user take delegator's roles"""
@@ -79,6 +70,7 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         output = self.folder.subfolder()
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
         self.assertTrue('Editor' in api.user.get_roles(username='user2', obj=self.folder.subfolder))
+        self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder))
 
     def test_2nd_lev_delegated(self):
         """Tests that:
@@ -95,6 +87,7 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         roles = api.user.get_roles(username='user3', obj=self.folder)
         self.assertTrue('Contributor' in roles)
         self.assertFalse('Editor' in roles)
+        self.assertTrue('Delegate' in roles)
 
     def test_2nd_lev_delegated_acquired(self):
         """Tests that:
@@ -111,3 +104,4 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         roles = api.user.get_roles(username='user3', obj=self.folder.subfolder)
         self.assertTrue('Contributor' in roles)
         self.assertFalse('Editor' in roles)
+        self.assertTrue('Delegate' in roles)

@@ -41,10 +41,19 @@
       description="A PAS plugin for proxy user's roles to other users"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <genericsetup:registerProfile
+      name="test"
+      title="Proxy Role PAS Plugin: test profile"
+      directory="profiles/default"
+      description="Used on tests"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   
   <genericsetup:registerProfile
       name="uninstall"
-      title="Uninstall: Pas Plugins Proxy"
+      title="Proxy Role PAS Plugin: uninstall"
       directory="profiles/uninstall"
       description="Uninstall pas.plugins.proxy"
       provides="Products.GenericSetup.interfaces.EXTENSION"

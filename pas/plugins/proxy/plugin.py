@@ -96,7 +96,7 @@ class ProxyUserRolesManager(LocalRolesManager):
     security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
         """
-        return a list of global roles of the delegator user
+        Return a list of global roles of the delegator user
         """
         if principal.getId()=='AuthenticatedUsers':
             return tuple()
@@ -128,8 +128,8 @@ class ProxyUserRolesManager(LocalRolesManager):
     # ILocalRolesPlugin implementation
     security.declarePrivate("getRolesInContext")
     def getRolesInContext(self, user, object):
-        """
-        return a list of global roles of the delegator user
+        """        
+        Return a list of roles of the delegator user, plus the 'Delegate' role
         """
         request = self.REQUEST
         annotations = IAnnotations(request)
@@ -149,8 +149,7 @@ class ProxyUserRolesManager(LocalRolesManager):
             # request = getRequest()
             # annotations = IAnnotations(request)
             # if annotations.get('proxy_roles') == user.getId():
-            #     roles.append('Delegate')
-            roles.update(api.user.get_roles(username=delegator, obj=object))
+            roles.update(api.user.get_roles(username=delegator, obj=object) + ['Delegate'])
             #roles.update([[r for r in lr[1]] for lr in object.get_local_roles() if lr[0]==delegator])
         roles = tuple(roles)
         annotations['ppp.getRolesInContext'] = roles
@@ -160,8 +159,16 @@ class ProxyUserRolesManager(LocalRolesManager):
     #security.declarePrivate( 'checkLocalRolesAllowed' )
     def checkLocalRolesAllowed(self, user, object, object_roles):
         """
-        append to principal_ids, also the ids of the delegated user
+        Check whether the user has access to object based
+        on local roles. access is determined by a user's local roles
+        including one of the object roles.
+        
+        return values: 0, 1, None
+        - 1 success
+        - 0 object context violation
+        - None - failure
         """
+
         inner_obj = aq_inner(object)
         user_id = user.getId()
         request = self.REQUEST
@@ -185,14 +192,18 @@ class ProxyUserRolesManager(LocalRolesManager):
             delegator_groups = [x.getId() for x in api.group.get_groups(username=delegator)]
             principal_ids.extend(delegator_groups)
             principal_ids.insert(0, delegator)
-        while 1:
 
+        principal_ids = list(set(principal_ids))
+
+        while 1:
             local_roles = getattr(inner_obj, '__ac_local_roles__', None)
 
             if local_roles and callable(local_roles):
                 local_roles = local_roles()
 
             if local_roles:
+                if local_roles.keys()!=['test_user_1_'] and local_roles.keys()!=['admin']:
+                    pass
                 dict = local_roles
 
                 for principal_id in principal_ids:
@@ -231,7 +242,11 @@ class ProxyUserRolesManager(LocalRolesManager):
 
     def getAllLocalRolesInContext(self, context):
         """
-        return a map of local roles.
+        Return active all local roles in a context.
+
+        The roles are returned in a dictionary mapping a principal (a
+        user or a group) to the set of roles assigned to it.
+
         If a user has a local role, and he delegates his roles to other users,
         add these users to the role mapping
         """
