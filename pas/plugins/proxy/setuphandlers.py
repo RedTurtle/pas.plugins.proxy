@@ -36,4 +36,4 @@ def importVarious(context):
     installPASPlugin(portal,
                      config.PLUGIN_ID,
                      ProxyUserRolesManager,
-                     'Proxy User Roles Plugin')
+                     "Proxy User's Roles Plugin")

@@ -2,7 +2,4 @@
     <record interface="pas.plugins.proxy.interfaces.IProxyRolesSettings"
             field="proxy_roles"
             delete="True"/>
-    <record interface="pas.plugins.proxy.interfaces.IProxyRolesSettings"
-            field="version_number"
-            delete="True"/>
 </registry>
