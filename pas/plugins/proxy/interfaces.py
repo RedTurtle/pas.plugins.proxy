@@ -26,8 +26,6 @@ class IProxyRolesSettings(Interface):
     proxy_roles = schema.Tuple(
             title=_('ppp_proxy_roles',
                     u'Proxy roles'),
-            description=_('help_proxy_roles',
-                          default=u""),
             value_type=PersistentObject(IProxyValueField, title=_('ppp_proxy',
                                                                    u"Proxy")),
             required=False,

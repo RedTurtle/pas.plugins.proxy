@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-17 07:58+0000\n"
+"POT-Creation-Date: 2015-05-07 15:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,41 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: pas.plugins.proxy\n"
 
-#: ./browser/controlpanel.py:95
+msgid "A PAS plugin for proxy user's roles to other users"
+msgstr ""
+
+#: ./browser/controlpanel.py:103
 msgid "Cancel"
 msgstr ""
 
-#: ./browser/controlpanel.py:91
+#: ./browser/controlpanel.py:99
 msgid "Changes saved"
 msgstr ""
 
-#: ./browser/controlpanel.py:53
+#: ./browser/controlpanel.py:56
 msgid "Do not duplicate entries."
 msgstr ""
 
-#: ./browser/controlpanel.py:97
+#: ./browser/controlpanel.py:105
 msgid "Edit cancelled"
 msgstr ""
 
 #: ./profiles/default/controlpanel.xml
-msgid "Pas Plugins Proxy"
+msgid "PAS Plugins Proxy"
+msgstr ""
+
+msgid "Proxy Role PAS Plugin"
 msgstr ""
 
 #: ./browser/controlpanel.py:29
 msgid "Proxy Roles Settings"
 msgstr ""
 
-#: ./browser/controlpanel.py:67
+#: ./browser/controlpanel.py:75
 msgid "Save"
 msgstr ""
 
-#: ./browser/controlpanel.py:63
+#: ./browser/controlpanel.py:64
 msgid "You cannot delegate other users."
 msgstr ""
 
@@ -53,8 +59,9 @@ msgstr ""
 msgid "You should select an existent username."
 msgstr ""
 
-#: ./interfaces.py:22
-msgid "help_proxy_roles"
+#. Default: "${subdelegator} cannot delegate ${delegated}.\nYou cannot cross-delegate:\na user can't be delegator and delegated of another"
+#: ./browser/controlpanel.py:68
+msgid "cross_delegation_error"
 msgstr ""
 
 #. Default: "Set proxy roles."
@@ -63,32 +70,32 @@ msgid "help_proxyroles_settings_editform"
 msgstr ""
 
 #. Default: "Select which user should acquire delegator roles."
-#: ./custom_fields.py:142
+#: ./custom_fields.py:143
 msgid "ppp_delegated_help"
 msgstr ""
 
 #. Default: "Delegated user"
-#: ./custom_fields.py:141
+#: ./custom_fields.py:142
 msgid "ppp_delegated_label"
 msgstr ""
 
 #. Default: "Select which user should delegate his roles."
-#: ./custom_fields.py:135
+#: ./custom_fields.py:136
 msgid "ppp_delegator_help"
 msgstr ""
 
 #. Default: "Delegator user"
-#: ./custom_fields.py:134
+#: ./custom_fields.py:135
 msgid "ppp_delegator_label"
 msgstr ""
 
 #. Default: "Proxy"
-#: ./interfaces.py:24
+#: ./interfaces.py:29
 msgid "ppp_proxy"
 msgstr ""
 
 #. Default: "Proxy roles"
-#: ./interfaces.py:20
+#: ./interfaces.py:27
 msgid "ppp_proxy_roles"
 msgstr ""
 

@@ -38,7 +38,7 @@
       name="default"
       title="Proxy Role PAS Plugin"
       directory="profiles/default"
-      description="A PAS plugin for proxy roles between users"
+      description="A PAS plugin for proxy user's roles to other users"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
   

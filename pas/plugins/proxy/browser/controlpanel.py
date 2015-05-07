@@ -34,7 +34,7 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
         super(ProxyRolesSettingsEditForm, self).updateWidgets()
         user = api.user.get_current()
         portal = api.portal.get()
-        self.widgets['version_number'].mode = interfaces.HIDDEN_MODE
+        #self.widgets['version_number'].mode = interfaces.HIDDEN_MODE
         if not user.checkPermission('pas.plugins.proxy: Manage proxy roles',
                                 portal):
             # if user can't manage proxies, set delegators widgets to readonly mode
@@ -47,22 +47,29 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
         If an username doesn't exist, return an error.
         If the current user tries to delegate different users, and doesn't have
         the right permission, return an error.
+        If the current user A tries to delegate a user B that already delegate A, return an error
+        BBB TO BE DONE - avoid circular delegation
         """
         proxy_roles = [(getattr(x, 'delegator', ''),
                         getattr(x, 'delegated', '')) for x in data.get('proxy_roles', [])]
         if len(proxy_roles) != len(set(proxy_roles)):
             return _(u"Do not duplicate entries.")
-        for proxy_role in proxy_roles:
-            delegator = proxy_role[0]
-            delegated = proxy_role[1]
-            user = api.user.get_current()
+        for delegator, delegated in proxy_roles:
             if not api.user.get(username=delegated) or not api.user.get(username=delegator):
                 return _(u"You should select an existent username.")
+            user = api.user.get_current()
             if not user.checkPermission(
                 'pas.plugins.proxy: Manage proxy roles',
                 self.context) and user.getProperty('id') != delegator:
                 return _(u"You cannot delegate other users.")
-
+            # avoid cross delegation
+            for subdelegator, subdelegated in proxy_roles:
+                if delegator==subdelegated and delegated==subdelegator:
+                    return _('cross_delegation_error',
+                             default=u"${subdelegator} cannot delegate ${delegated}.\n"
+                                     u"You cannot cross-delegate:\n"
+                                     u"a user can't be delegator and delegated of another",
+                             mapping={'subdelegator': subdelegator, 'delegated': subdelegated})
         return None
 
     @button.buttonAndHandler(_('Save'), name='save')
@@ -76,9 +83,6 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
         if proxy_validation_msg:
             raise WidgetActionExecutionError('proxy_roles',
                 Invalid(proxy_validation_msg))
-        if not data.get('version_number'):
-            data['version_number'] = 0
-        data['version_number'] = data['version_number'] + 1
         self.applyChanges(data)
         #reindex allowedRolesAndUsers index, to update the permissions in catalog
         #we need to set new security manager, to update catalog correctly
