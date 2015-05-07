@@ -20,15 +20,6 @@ from zope.interface import implements
 from zope.annotation.interfaces import IAnnotations
 
 
-def _proxy_users_cachekey(method, self, username):
-    """
-    method for ramcache that store time and username and a configuration version from registry
-    """
-    timestamp = time() // (60 * 2 * 1)
-    version_number = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.version_number')
-    return "%s:%s:%s" % (timestamp, username, version_number)
-
-
 class AddForm(BrowserView):
     """Add form the PAS plugin
     """
@@ -62,7 +53,6 @@ class ProxyUserRolesManager(LocalRolesManager):
         self._setId(id)
         self.title = title
 
-    #@ram.cache(_proxy_users_cachekey)
     def get_delegators_of(self, username):
         """
         for a given username, return a list of usernames that delegate him
@@ -70,7 +60,6 @@ class ProxyUserRolesManager(LocalRolesManager):
         proxy_roles = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.proxy_roles')
         return [x.delegator for x in proxy_roles if x.delegated == username]
 
-    #@ram.cache(_proxy_users_cachekey)
     def get_my_delegateds(self, username):
         """
         for a given username, return a list of users delegated by him

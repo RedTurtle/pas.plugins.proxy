@@ -126,8 +126,8 @@ def default_delegator(context):
     portal = api.portal.get()
     if user.checkPermission('pas.plugins.proxy: Manage proxy roles',
                             portal):
-        return u""
-    return user.getProperty('id').decode('utf-8')
+        return ""
+    return user.getProperty('id')
 
 
 class IProxyValueField(Interface):
