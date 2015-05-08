@@ -32,6 +32,6 @@ class BaseTestCase(unittest.TestCase):
     def clean_request(self):
         req_annotations = IAnnotations(self.layer['request'])
         for key in ('ppp.getGroupsForPrincipal', 'ppp.getRolesForPrincipal',
-                    'ppp.getRolesInContext', 'ppp.user'):
-            if req_annotations.get(key):
+                    'ppp.getRolesInContext', 'ppp.user', 'ppp.checkLocalRolesAllowed'):
+            if key in req_annotations.keys():
                 del req_annotations[key]

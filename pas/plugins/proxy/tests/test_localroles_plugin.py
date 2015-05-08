@@ -77,6 +77,7 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         portal = self.layer['portal']
         request = self.layer['request']
         request.set('ACTUAL_URL', 'http://nohost/plone/folder/subfolder')
+        request.set('URL', 'http://nohost/plone/folder/subfolder')
         login(portal, 'user2')
         output = self.folder.subfolder()
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
