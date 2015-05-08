@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from pas.plugins.proxy.plugin import ProxyUserRolesManager
 from pas.plugins.proxy import logger
