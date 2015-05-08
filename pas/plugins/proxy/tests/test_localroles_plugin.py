@@ -105,3 +105,15 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         self.assertTrue('Contributor' in roles)
         self.assertFalse('Editor' in roles)
         self.assertTrue('Delegate' in roles)
+
+    def test_delegation_work_only_for_current_user(self):
+        # This test is showing one of the limitation of the plugin: delegation only work
+        # for current logged in user (this in consequence of caching on request, but removing caghing
+        # is perfomance killer 
+        portal = self.layer['portal']
+        login(portal, 'user2')
+        roles = api.user.get_roles(username='user3', obj=self.folder.subfolder)
+        self.assertFalse('Contributor' in roles)
+        self.assertFalse('Delegate' in roles)
+
+    

@@ -58,6 +58,7 @@ class PASPluginGlobalRolesTestCase(BaseTestCase):
         output = self.folder()
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
         self.assertTrue('Editor' in api.user.get_roles(username='user2', obj=self.folder))
+        self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder))
 
     def test_2nd_lev_delegated(self):
         """Tests that:

@@ -16,7 +16,7 @@
          directory="static"
          />
 
-  <browser:page
+    <browser:page
         name="add-proxy-user-roles-plugin"
         for="zope.browser.interfaces.IAdding"
         class="..plugin.AddForm"

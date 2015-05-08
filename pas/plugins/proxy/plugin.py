@@ -112,14 +112,7 @@ class ProxyUserRolesManager(LocalRolesManager):
         delegators = self.get_delegators_of(principal.getId())
         roles = set()
         for delegator in delegators:
-            # delegated role need to be checked
-            # roles = api.user.get_roles(username=src_user)
-            # from zope.globalrequest import getRequest
-            # request = getRequest()
-            # annotations = IAnnotations(request)
-            # if annotations.get('proxy_roles') == principal.getId():
-            #     roles.append('Delegate')
-            roles.update(api.user.get_roles(username=delegator))
+            roles.update(api.user.get_roles(username=delegator) + ['Delegate'])
         roles = tuple(roles)
         annotations['ppp.getRolesForPrincipal'] = roles
         ### obj.get_local_roles
@@ -132,7 +125,9 @@ class ProxyUserRolesManager(LocalRolesManager):
         Return a list of roles of the delegator user, plus the 'Delegate' role
         """
         request = self.REQUEST
+        #inner_obj = aq_inner(object)
         annotations = IAnnotations(request)
+
         if annotations.get('ppp.user', None)==None:
             annotations['ppp.user'] = user.getId()
         elif annotations.get('ppp.user', None)!=user.getId():
@@ -140,6 +135,7 @@ class ProxyUserRolesManager(LocalRolesManager):
         stored = annotations.get('ppp.getRolesInContext', None)
         if stored:
             return stored
+
         delegators = self.get_delegators_of(user.getId())
         roles = set()
         for delegator in delegators:
@@ -150,7 +146,7 @@ class ProxyUserRolesManager(LocalRolesManager):
             # annotations = IAnnotations(request)
             # if annotations.get('proxy_roles') == user.getId():
             roles.update(api.user.get_roles(username=delegator, obj=object) + ['Delegate'])
-            #roles.update([[r for r in lr[1]] for lr in object.get_local_roles() if lr[0]==delegator])
+            #roles.update([[r for r in lr[1]] for lr in inner_obj.get_local_roles() if lr[0]==delegator])
         roles = tuple(roles)
         annotations['ppp.getRolesInContext'] = roles
         ### obj.get_local_roles
@@ -169,9 +165,9 @@ class ProxyUserRolesManager(LocalRolesManager):
         - None - failure
         """
 
-        inner_obj = aq_inner(object)
         user_id = user.getId()
         request = self.REQUEST
+        object_roles = list(tuple(object_roles)) # BBB: sometimes we get a tuple and duplicates
 
         annotations = IAnnotations(request)
         if annotations.get('ppp.user', None)==None:
@@ -179,16 +175,11 @@ class ProxyUserRolesManager(LocalRolesManager):
         elif annotations.get('ppp.user', None)!=user_id:
             return None
 
-        group_ids = user.getGroups()
-        principal_ids = list(group_ids)
-        principal_ids.insert(0, user_id)
-        delegators = self.get_delegators_of(user.getId())
+        inner_obj = aq_inner(object)
+        principal_ids = []
+        #principal_ids.insert(0, user_id)
+        delegators = self.get_delegators_of(user_id)
         for delegator in delegators:
-            # delegated role need to be checked
-            # from zope.globalrequest import getRequest
-            # request = getRequest()
-            # annotations = IAnnotations(request)
-            # annotations['proxy_roles'] = user_id
             delegator_groups = [x.getId() for x in api.group.get_groups(username=delegator)]
             principal_ids.extend(delegator_groups)
             principal_ids.insert(0, delegator)
@@ -202,8 +193,6 @@ class ProxyUserRolesManager(LocalRolesManager):
                 local_roles = local_roles()
 
             if local_roles:
-                if local_roles.keys()!=['test_user_1_'] and local_roles.keys()!=['admin']:
-                    pass
                 dict = local_roles
 
                 for principal_id in principal_ids:
@@ -266,17 +255,17 @@ class ProxyUserRolesManager(LocalRolesManager):
 
                 for principal, localroles in dict.items():
 
-                    if not principal in roles:
-                        roles[principal] = set()
+#                    if not principal in roles:
+#                        roles[principal] = set()
+#
+#                    roles[principal].update(localroles)
 
-                    roles[principal].update(localroles)
-
-                    #set also the proxied users
+                    # set also the proxied users
                     delegated_users = self.get_my_delegateds(principal)
                     for userid in delegated_users:
                         if not userid in roles:
                             roles[userid] = set()
-                        roles[userid].update(localroles)
+                        roles[userid].update(localroles + ['Delegate'])
 
             inner = aq_inner(object)
             parent = aq_parent(inner)
@@ -296,5 +285,6 @@ class ProxyUserRolesManager(LocalRolesManager):
 
             break
         return roles
+
 
 InitializeClass(ProxyUserRolesManager)
