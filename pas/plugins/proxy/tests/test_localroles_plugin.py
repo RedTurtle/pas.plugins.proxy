@@ -61,6 +61,17 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         self.assertTrue('Editor' in api.user.get_roles(username='user2', obj=self.folder))
         self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder))
 
+    def test_delegated_get_delegate_permission(self):
+        # Tests that Delegate role works normally with workflow, permissions, ...
+        portal = self.layer['portal']
+        request = self.layer['request']
+        request.set('ACTUAL_URL', 'http://nohost/plone/folder')
+        login(portal, 'user3')
+        user = api.user.get('user3')
+        output = self.folder()
+        self.assertTrue('plone-contentmenu-display' in output)
+        self.assertTrue(user.checkPermission('Modify view template', self.folder))
+
     def test_delegated_get_roles_acquired(self):
         """Tests that a delegated user take delegator's roles"""
         portal = self.layer['portal']

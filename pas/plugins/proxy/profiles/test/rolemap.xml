@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+    <permission name="Modify view template" acquire="False">
+      <role name="Manager" />
+	  <role name="Site Administrator" />
+	  <role name="Owner" />
+	  <role name="Editor" />
+	  <role name="Delegate" />
+    </permission>
+  </permissions>
+</rolemap>

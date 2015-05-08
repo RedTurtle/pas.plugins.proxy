@@ -30,6 +30,7 @@ setup(name='pas.plugins.proxy',
       extras_require=dict(test=tests_require),
       install_requires=[
           'setuptools',
+          'Products.CMFPlone',
           'Products.PlonePAS',
           'plone.api',
           'plone.app.registry',
