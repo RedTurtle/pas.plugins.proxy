@@ -182,6 +182,7 @@ class ProxyUserRolesManager(LocalRolesManager):
         stored = annotations.get('ppp.checkLocalRolesAllowed', -1)
         if stored!=-1:
             return stored
+        #print stored, user, object, object_roles
 
         inner_obj = aq_inner(object)
         principal_ids = []

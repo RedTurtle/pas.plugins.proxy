@@ -73,7 +73,7 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         self.assertTrue(user.checkPermission('Modify view template', self.folder))
 
     def test_delegated_get_roles_acquired(self):
-        """Tests that a delegated user take delegator's roles"""
+        """Tests that a delegated user acquire delegator's roles from parents"""
         portal = self.layer['portal']
         request = self.layer['request']
         request.set('ACTUAL_URL', 'http://nohost/plone/folder/subfolder')
@@ -82,7 +82,7 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         output = self.folder.subfolder()
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
         self.assertTrue('Editor' in api.user.get_roles(username='user2', obj=self.folder.subfolder))
-        self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder))
+        self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder.subfolder))
 
     def test_2nd_lev_delegated(self):
         """Tests that:
