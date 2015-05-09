@@ -23,7 +23,7 @@ The "*Proxy Roles Settings*" control panel
 The plugin configuration is composed by a sequence of delegator/delegate
 couples.
 
-.. image:: http://raw.github.com/images/pas.plugins.proxy-0.1.0-01.png
+.. image:: https://github.com/RedTurtle/pas.plugins.proxy/blob/8e78343869d00154b45395d007c66c841357e285/docs/pas.plugins.proxy-0.1.0-01.png
    :alt: Proxy Roles Settings
 
 By default *all* users can access this panel, with a big difference:
