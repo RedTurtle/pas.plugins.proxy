@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import logging
-logger = logging.getLogger('pas.plugins.proxy')
 
+import logging
 from zope.i18nmessageid import MessageFactory
+from AccessControl.Permissions import add_user_folders
+
+logger = logging.getLogger('pas.plugins.proxy')
 pppMessageFactory = MessageFactory('pas.plugins.proxy')
 
-from AccessControl.Permissions import add_user_folders
 from pas.plugins.proxy.plugin import ProxyUserRolesManager, AddForm
 
 def initialize(context):

@@ -8,6 +8,7 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.utils import getToolByName
 
 
 class ProxyRolesLayer(PloneSandboxLayer):
@@ -29,6 +30,11 @@ class ProxyRolesLayer(PloneSandboxLayer):
         acl_users.userFolderAddUser('user1', 'secret', ['Member', ], [])
         acl_users.userFolderAddUser('user2', 'secret', ['Member', ], [])
         acl_users.userFolderAddUser('user3', 'secret', ['Member', ], [])
+        acl_users.userFolderAddUser('user4', 'secret', ['Member', ], [])
+        acl_users.userFolderAddUser('user5', 'secret', ['Member', ], [])
+        workflowTool = getToolByName(portal, 'portal_workflow')
+        workflowTool.setDefaultChain('simple_publication_workflow')
+
 
 
 PROXYROLES_FIXTURE = ProxyRolesLayer()

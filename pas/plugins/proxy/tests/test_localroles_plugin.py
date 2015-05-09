@@ -29,12 +29,15 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         portal = self.layer['portal']
         settings = self.getSettings()
         settings.proxy_roles = (ProxyValueField('user1', 'user2'), 
-                                ProxyValueField('user2', 'user3'),)
+                                ProxyValueField('user2', 'user3'),
+                                ProxyValueField('user4', 'user5'),
+                                )
         portal.invokeFactory('Folder', 'folder', title='Folder A')
         self.folder = portal.folder
         self.folder.invokeFactory('Folder', 'subfolder', title='Folder B')
         self.folder.manage_addLocalRoles('user1', ('Editor', ))
         self.folder.manage_addLocalRoles('user2', ('Contributor', ))
+        self.folder.manage_addLocalRoles('user4', ('Reader', ))
         self.clean_request()
 
     def tearDown(self):
@@ -60,6 +63,16 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         self.assertTrue(u'id="contentview-edit"' in output) # can edit
         self.assertTrue('Editor' in api.user.get_roles(username='user2', obj=self.folder))
         self.assertTrue('Delegate' in api.user.get_roles(username='user2', obj=self.folder))
+
+    def test_delegated_get_access(self):
+        """Tests that a delegated user take simple power like View"""
+        portal = self.layer['portal']
+        request = self.layer['request']
+        request.set('ACTUAL_URL', 'http://nohost/plone/folder')
+        login(portal, 'user5')
+        output = self.folder()
+        self.assertTrue(u'There are currently no items in this folder.' in output) # see the emtpy folder
+        self.assertTrue('Reader' in api.user.get_roles(username='user5', obj=self.folder))
 
     def test_delegated_get_delegate_permission(self):
         # Tests that Delegate role works normally with workflow, permissions, ...

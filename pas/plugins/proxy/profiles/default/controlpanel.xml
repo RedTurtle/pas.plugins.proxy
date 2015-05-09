@@ -3,11 +3,11 @@
         meta_type="Plone Control Panel Tool"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         i18n:domain="pas.plugins.proxy">
- <configlet title="PAS Plugins Proxy" action_id="ProxyRolesSettings"
+ <configlet title="Proxy Roles Settings" action_id="ProxyRolesSettings"
     appId="pas.plugins.proxy" category="Products" condition_expr=""
     url_expr="string:${portal_url}/@@proxy-roles-settings"
     visible="True" i18n:attributes="title"
-    icon_expr="">
+    icon_expr="string:${portal_url}/++resource++pas.plugins.proxy.static/proxy.png">
   <permission>pas.plugins.proxy: Access proxy roles panel</permission>
  </configlet>
 </object>

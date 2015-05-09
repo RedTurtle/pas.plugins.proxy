@@ -144,12 +144,6 @@ class ProxyUserRolesManager(LocalRolesManager):
         delegators = self.get_delegators_of(user.getId())
         roles = set()
         for delegator in delegators:
-            # delegated role need to be checked
-            # roles = api.user.get_roles(username=src_user, obj=object)
-            # from zope.globalrequest import getRequest
-            # request = getRequest()
-            # annotations = IAnnotations(request)
-            # if annotations.get('proxy_roles') == user.getId():
             roles.update(api.user.get_roles(username=delegator, obj=object) + ['Delegate'])
             #roles.update([[r for r in lr[1]] for lr in inner_obj.get_local_roles() if lr[0]==delegator])
         roles = tuple(roles)
@@ -179,21 +173,19 @@ class ProxyUserRolesManager(LocalRolesManager):
             annotations['ppp.user'] = user_id
         elif annotations.get('ppp.user', None)!=user_id:
             return None
-        stored = annotations.get('ppp.checkLocalRolesAllowed', -1)
-        if stored!=-1:
-            return stored
-        #print stored, user, object, object_roles
 
         inner_obj = aq_inner(object)
-        principal_ids = []
-        #principal_ids.insert(0, user_id)
-        delegators = self.get_delegators_of(user_id)
-        for delegator in delegators:
-            delegator_groups = [x.getId() for x in api.group.get_groups(username=delegator)]
-            principal_ids.extend(delegator_groups)
-            principal_ids.insert(0, delegator)
 
-        principal_ids = list(set(principal_ids))
+        principal_ids = annotations.get('ppp.checkLocalRolesAllowed', [])
+        if not principal_ids:
+            delegators = self.get_delegators_of(user_id)
+            for delegator in delegators:
+                delegator_groups = [x.getId() for x in api.group.get_groups(username=delegator)]
+                principal_ids.extend(delegator_groups)
+                principal_ids.insert(0, delegator)
+    
+            principal_ids = list(set(principal_ids))
+            annotations['ppp.checkLocalRolesAllowed'] = principal_ids
 
         while 1:
             local_roles = getattr(inner_obj, '__ac_local_roles__', None)
@@ -215,9 +207,7 @@ class ProxyUserRolesManager(LocalRolesManager):
                     for role in object_roles:
                         if role in local_roles:
                             if user._check_context(object):
-                                annotations['ppp.checkLocalRolesAllowed'] = 1
                                 return 1
-                            annotations['ppp.checkLocalRolesAllowed'] = 0
                             return 0
 
             inner = aq_inner(inner_obj)
@@ -238,7 +228,6 @@ class ProxyUserRolesManager(LocalRolesManager):
 
             break
 
-        annotations['ppp.checkLocalRolesAllowed'] = None
         return None
 
     def getAllLocalRolesInContext(self, context):

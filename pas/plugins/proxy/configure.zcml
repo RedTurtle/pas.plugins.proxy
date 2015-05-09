@@ -10,8 +10,7 @@
   <five:registerPackage package="." initialize=".initialize" />
   <include package="plone.app.registry" />
   <i18n:registerTranslations directory="locales" />
-  
-  <!--Register permission id-->
+
   <permission 
      id="pas.plugins.proxy.AccessProxyRolesPanel" 
      title="pas.plugins.proxy: Access proxy roles panel"
@@ -36,7 +35,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Proxy Role PAS Plugin"
+      title="Proxy Roles PAS Plugin"
       directory="profiles/default"
       description="A PAS plugin for proxy user's roles to other users"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -44,7 +43,7 @@
 
   <genericsetup:registerProfile
       name="test"
-      title="Proxy Role PAS Plugin: test profile"
+      title="Proxy Roles PAS Plugin: test profile"
       directory="profiles/test"
       description="Used on tests"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -52,7 +51,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Proxy Role PAS Plugin: uninstall"
+      title="Proxy Roles PAS Plugin: uninstall"
       directory="profiles/uninstall"
       description="Uninstall pas.plugins.proxy"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -78,17 +77,4 @@
     name="pas.plugins.proxy.vocabularies.UsersVocabulary"
     />
 
-  <five:registerClass
-    class=".plugin.ProxyUserRolesManager"
-    meta_type="Proxy User Roles Manager"
-    permission="zope2.ViewManagementScreens"
-    addview="add-proxy-roles-plugin"
-    /> 
-  <browser:page
-    name="add-proxy-roles-plugin"
-    for="zope.browser.interfaces.IAdding"
-    class=".plugin.AddForm"
-    template="addform.pt"
-    permission="zope2.ViewManagementScreens"
-    />
 </configure>
