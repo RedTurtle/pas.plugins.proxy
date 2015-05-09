@@ -1,23 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
-from Products.CMFCore.utils import getToolByName
-from pas.plugins.proxy.interfaces import IPasPluginsProxyLayer
-from pas.plugins.proxy.interfaces import IProxyRolesSettings
 from pas.plugins.proxy.testing import PROXYROLES_INTEGRATION_TESTING
 from pas.plugins.proxy.custom_fields import ProxyValueField
 from pas.plugins.proxy.tests.base import BaseTestCase
 from plone import api
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
-from plone.registry.interfaces import IRegistry
-from zope import interface
-from zope.component import queryUtility
-from zope.annotation.interfaces import IAnnotations
-
 
 
 class PASPluginGlobalRolesTestCase(BaseTestCase):

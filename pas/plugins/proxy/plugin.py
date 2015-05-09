@@ -9,13 +9,11 @@ from AccessControl import ClassSecurityInfo
 from Acquisition import aq_inner, aq_parent
 from App.class_init import InitializeClass
 from plone import api
-from plone.memoize import ram
 from Products.Five.browser import BrowserView
 from Products.PlonePAS.interfaces.plugins import ILocalRolesPlugin
 from Products.PlonePAS.plugins.local_role import LocalRolesManager
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
-from time import time
 from zope.interface import implements
 from zope.annotation.interfaces import IAnnotations
 
