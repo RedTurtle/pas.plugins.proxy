@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-05-07 15:07+0000\n"
+"POT-Creation-Date: 2015-05-09 23:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,14 +36,11 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ./profiles/default/controlpanel.xml
-msgid "PAS Plugins Proxy"
-msgstr ""
-
 msgid "Proxy Role PAS Plugin"
 msgstr ""
 
 #: ./browser/controlpanel.py:29
+#: ./profiles/default/controlpanel.xml
 msgid "Proxy Roles Settings"
 msgstr ""
 
@@ -100,12 +97,12 @@ msgid "ppp_proxy_roles"
 msgstr ""
 
 #. Default: "Changes become effective only after pressing the SAVE button."
-#: ./browser/controlpanel.pt:17
+#: ./browser/controlpanel.pt:24
 msgid "warning_save_label"
 msgstr ""
 
 #. Default: "Warning"
-#: ./browser/controlpanel.pt:16
+#: ./browser/controlpanel.pt:23
 msgid "warning_save_type"
 msgstr ""
 

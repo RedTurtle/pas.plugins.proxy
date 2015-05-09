@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-05-07 15:07+0000\n"
+"POT-Creation-Date: 2015-05-09 23:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Luca Fabbri <keul@redturtle.it>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.it>\n"
@@ -36,14 +36,11 @@ msgstr "Non è possibile duplicare le deleghe."
 msgid "Edit cancelled"
 msgstr "Modifiche annullate"
 
-#: ./profiles/default/controlpanel.xml
-msgid "PAS Plugins Proxy"
-msgstr ""
-
 msgid "Proxy Role PAS Plugin"
 msgstr "Plugin PAS per delega ruoli"
 
 #: ./browser/controlpanel.py:29
+#: ./profiles/default/controlpanel.xml
 msgid "Proxy Roles Settings"
 msgstr "Configurazione deleghe di ruolo"
 
@@ -103,12 +100,12 @@ msgid "ppp_proxy_roles"
 msgstr "Delega di ruoli"
 
 #. Default: "Changes become effective only after pressing the SAVE button."
-#: ./browser/controlpanel.pt:17
+#: ./browser/controlpanel.pt:24
 msgid "warning_save_label"
 msgstr "Le modifiche diventano valide solo dopo avere premuto l'apposito tasto SALVA."
 
 #. Default: "Warning"
-#: ./browser/controlpanel.pt:16
+#: ./browser/controlpanel.pt:23
 msgid "warning_save_type"
 msgstr "Attenzione"
 

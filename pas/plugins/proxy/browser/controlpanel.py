@@ -1,19 +1,24 @@
 # -*- coding: utf-8 -*-
-from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager, getSecurityManager
+
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
 from AccessControl.User import UnrestrictedUser
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.statusmessages.interfaces import IStatusMessage
 from pas.plugins.proxy import pppMessageFactory as _
 from pas.plugins.proxy.custom_fields import ProxyValueField
 from pas.plugins.proxy.interfaces import IProxyRolesSettings
 from plone import api
 from plone.app.registry.browser import controlpanel
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form import interfaces
 from z3c.form.form import applyChanges
 from z3c.form.interfaces import WidgetActionExecutionError
+from zope.i18nmessageid import MessageFactory
 from zope.interface import Invalid
 
+pmf = MessageFactory('plone')
 
 class UnrestrictedMember(UnrestrictedUser):
     """Unrestricted user that still has an id."""
@@ -72,7 +77,7 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
                              mapping={'subdelegator': subdelegator, 'delegated': subdelegated})
         return None
 
-    @button.buttonAndHandler(_('Save'), name='save')
+    @button.buttonAndHandler(pmf('Save'), name='save')
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
@@ -100,7 +105,7 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
                                                       "info")
         self.context.REQUEST.RESPONSE.redirect("@@proxy-roles-settings")
 
-    @button.buttonAndHandler(_('Cancel'), name='cancel')
+    @button.buttonAndHandler(pmf('Cancel'), name='cancel')
     def handleCancel(self, action):
         IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
                                                       "info")
