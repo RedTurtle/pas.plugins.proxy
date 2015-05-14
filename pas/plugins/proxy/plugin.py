@@ -77,6 +77,13 @@ class ProxyUserRolesManager(LocalRolesManager):
             annotations['ppp.user'] = principal.getId()
         elif annotations.get('ppp.user', None)!=principal.getId():
             return tuple()
+
+        # This method will be called once for user
+        if annotations.get('ppp.getGroupsForPrincipal.stop', None)==None:
+            annotations['ppp.getGroupsForPrincipal.stop'] = True
+        else:
+            return tuple()
+
         stored = annotations.get('ppp.getGroupsForPrincipal', None)
         if stored is not None:
             return stored

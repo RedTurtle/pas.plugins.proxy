@@ -74,10 +74,10 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
             for subdelegator, subdelegated in stored + proxy_roles:
                 if delegator==subdelegated and delegated==subdelegator:
                     return _('cross_delegation_error',
-                             default=u"${subdelegator} cannot delegate ${delegated}.\n"
+                             default=u"${delegator} cannot delegate ${delegated}.\n"
                                      u"You cannot cross-delegate:\n"
                                      u"a user can't be delegator and delegated of another",
-                             mapping={'subdelegator': subdelegator, 'delegated': subdelegated})
+                             mapping={'delegator': delegator, 'delegated': delegated})
         return None
 
     @button.buttonAndHandler(pmf('Save'), name='save')

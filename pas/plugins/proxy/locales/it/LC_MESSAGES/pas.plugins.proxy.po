@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-05-09 23:32+0000\n"
+"POT-Creation-Date: 2015-05-14 14:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Luca Fabbri <keul@redturtle.it>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.it>\n"
@@ -20,52 +20,44 @@ msgstr ""
 msgid "A PAS plugin for proxy user's roles to other users"
 msgstr "Un plugin PAS per delegare ruoli di un utente ad altri utenti"
 
-#: ./browser/controlpanel.py:103
-msgid "Cancel"
-msgstr "Annulla"
-
-#: ./browser/controlpanel.py:99
+#: ./browser/controlpanel.py:107
 msgid "Changes saved"
 msgstr "Modifiche salvate"
 
-#: ./browser/controlpanel.py:56
+#: ./browser/controlpanel.py:63
 msgid "Do not duplicate entries."
 msgstr "Non è possibile duplicare le deleghe."
 
-#: ./browser/controlpanel.py:105
+#: ./browser/controlpanel.py:113
 msgid "Edit cancelled"
 msgstr "Modifiche annullate"
 
 msgid "Proxy Role PAS Plugin"
 msgstr "Plugin PAS per delega ruoli"
 
-#: ./browser/controlpanel.py:29
+#: ./browser/controlpanel.py:36
 #: ./profiles/default/controlpanel.xml
 msgid "Proxy Roles Settings"
 msgstr "Configurazione deleghe di ruolo"
 
-#: ./browser/controlpanel.py:75
-msgid "Save"
-msgstr "Salva"
-
-#: ./browser/controlpanel.py:64
+#: ./browser/controlpanel.py:71
 msgid "You cannot delegate other users."
 msgstr "Non puoi dare deleghe ad utenti diversi dal tuo."
 
-#: ./browser/controlpanel.py:59
+#: ./browser/controlpanel.py:66
 msgid "You should select an existent username."
 msgstr "Devi selezionare un utente esistente."
 
-#. Default: "${subdelegator} cannot delegate ${delegated}.\nYou cannot cross-delegate:\na user can't be delegator and delegated of another"
-#: ./browser/controlpanel.py:68
+#. Default: "${delegator} cannot delegate ${delegated}.\nYou cannot cross-delegate:\na user can't be delegator and delegated of another"
+#: ./browser/controlpanel.py:76
 msgid "cross_delegation_error"
 msgstr ""
-"${subdelegator} non può delegare ${delegated}.\n"
+"${delegator} non può delegare ${delegated}.\n"
 "Non puoi delegare in modo incrociato:\n"
 "un utente non può essere contemporaneamente delegante e delegato di un altro."
 
 #. Default: "Set proxy roles."
-#: ./browser/controlpanel.py:30
+#: ./browser/controlpanel.py:37
 msgid "help_proxyroles_settings_editform"
 msgstr "Imposta le deleghe di ruolo."
 
