@@ -78,7 +78,8 @@ class ProxyUserRolesManager(LocalRolesManager):
         elif annotations.get('ppp.user', None)!=principal.getId():
             return tuple()
 
-        # This method will be called once for user
+        # This method will be called once for user.
+        # This prevent some kind of recursion plugin calling g.getGroupMemberIds() below
         if annotations.get('ppp.getGroupsForPrincipal.stop', None)==None:
             annotations['ppp.getGroupsForPrincipal.stop'] = True
         else:
