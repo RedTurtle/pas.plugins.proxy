@@ -14,6 +14,7 @@ from Products.PlonePAS.interfaces.plugins import ILocalRolesPlugin
 from Products.PlonePAS.plugins.local_role import LocalRolesManager
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
+from pas.plugins.proxy import config
 from zope.interface import implements
 from zope.annotation.interfaces import IAnnotations
 
@@ -55,14 +56,14 @@ class ProxyUserRolesManager(LocalRolesManager):
         """
         for a given username, return a list of usernames that delegate him
         """
-        proxy_roles = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.proxy_roles')
+        proxy_roles = api.portal.get_registry_record(config.REGISTRY_RECORD_NAME)
         return [x.delegator for x in proxy_roles if x.delegated == username]
 
     def get_my_delegateds(self, username):
         """
         for a given username, return a list of users delegated by him
         """
-        proxy_roles = api.portal.get_registry_record('pas.plugins.proxy.interfaces.IProxyRolesSettings.proxy_roles')
+        proxy_roles = api.portal.get_registry_record(config.REGISTRY_RECORD_NAME)
         return [x.delegated for x in proxy_roles if x.delegator == username]
 
     # IGroupsPlugin implementation

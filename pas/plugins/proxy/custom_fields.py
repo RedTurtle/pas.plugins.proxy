@@ -126,19 +126,19 @@ def default_delegator(context):
     portal = api.portal.get()
     if user.checkPermission('pas.plugins.proxy: Manage proxy roles',
                             portal):
-        return ""
-    return user.getProperty('id')
+        return u""
+    return user.getProperty('id').decode('utf-8')
 
 
 class IProxyValueField(Interface):
-    delegator = schema.ASCIILine(
+    delegator = schema.TextLine(
             title=_("ppp_delegator_label", default=u"Delegator user"),
             description=_("ppp_delegator_help",
                           default=u'Select which user should delegate his roles.'),
             required=True,
             defaultFactory=default_delegator,
     )
-    delegated = schema.ASCIILine(
+    delegated = schema.TextLine(
             title=_("ppp_delegated_label", default=u"Delegated user"),
             description=_("ppp_delegated_help",
                           default=u'Select which user should acquire delegator roles.'),

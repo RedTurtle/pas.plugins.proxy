@@ -17,8 +17,8 @@ class PASPluginGlobalRolesTestCase(BaseTestCase):
         self.markRequestWithLayer()
         portal = self.layer['portal']
         settings = self.getSettings()
-        settings.proxy_roles = (ProxyValueField('user1', 'user2'), 
-                                ProxyValueField('user2', 'user3'),)
+        settings.proxy_roles = (ProxyValueField(u'user1', u'user2'), 
+                                ProxyValueField(u'user2', u'user3'),)
         portal.invokeFactory('Folder', 'folder', title='Folder A')
         self.folder = portal.folder
         setRoles(portal, 'user1', ['Editor'])

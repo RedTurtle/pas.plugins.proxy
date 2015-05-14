@@ -16,9 +16,9 @@ class PASPluginLocalRolesTestCase(BaseTestCase):
         self.markRequestWithLayer()
         portal = self.layer['portal']
         settings = self.getSettings()
-        settings.proxy_roles = (ProxyValueField('user1', 'user2'), 
-                                ProxyValueField('user2', 'user3'),
-                                ProxyValueField('user4', 'user5'),
+        settings.proxy_roles = (ProxyValueField(u'user1', u'user2'), 
+                                ProxyValueField(u'user2', u'user3'),
+                                ProxyValueField(u'user4', u'user5'),
                                 )
         portal.invokeFactory('Folder', 'folder', title='Folder A')
         self.folder = portal.folder

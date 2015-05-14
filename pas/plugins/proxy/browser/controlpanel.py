@@ -7,6 +7,7 @@ from AccessControl.User import UnrestrictedUser
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from pas.plugins.proxy import pppMessageFactory as _
+from pas.plugins.proxy import config
 from pas.plugins.proxy.custom_fields import ProxyValueField
 from pas.plugins.proxy.interfaces import IProxyRolesSettings
 from plone import api
@@ -19,6 +20,7 @@ from zope.i18nmessageid import MessageFactory
 from zope.interface import Invalid
 
 pmf = MessageFactory('plone')
+
 
 class UnrestrictedMember(UnrestrictedUser):
     """Unrestricted user that still has an id."""
@@ -68,7 +70,8 @@ class ProxyRolesSettingsEditForm(controlpanel.RegistryEditForm):
                 self.context) and user.getProperty('id') != delegator:
                 return _(u"You cannot delegate other users.")
             # avoid cross delegation
-            for subdelegator, subdelegated in proxy_roles:
+            stored = [(value.delegator, value.delegated) for value in api.portal.get_registry_record(config.REGISTRY_RECORD_NAME)]
+            for subdelegator, subdelegated in stored + proxy_roles:
                 if delegator==subdelegated and delegated==subdelegator:
                     return _('cross_delegation_error',
                              default=u"${subdelegator} cannot delegate ${delegated}.\n"

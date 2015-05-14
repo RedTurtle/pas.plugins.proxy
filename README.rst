@@ -15,7 +15,7 @@ delegator, as he own *same roles* (both global and local).
 
 Every delegate will also gain a new *Delegate* role (this role will not be
 registered in your Plone site, this feature must be activated by 3rd party
-configuration).
+or manual configuration).
 
 The "*Proxy Roles Settings*" control panel
 ==========================================
@@ -37,7 +37,7 @@ By default *all* users can access this panel, with a big difference:
 
 Other rules:
 
-* You can only delegate for existings usernames
+* You can only delegate existings users
 * Cannot cross-delegate (a user can't be both delegator and delegate of
   another)
 * A delegator can proxy his roles as many times as he need
@@ -46,15 +46,18 @@ Other rules:
 Groups
 ======
 
-The PAS plugin act also as a group plugin: the delegate will automatically gets
-all roles (again: global and local) given to groups where the delegator is in. 
+The PAS plugin act also as a **group plugin**: the delegate will automatically gets
+all roles given to groups where the delegator is in. 
 
-Ask for groups of delegate will get you groups of his delegator.
-Instead: asking for users of a group will not return users that seems part of
+Ask for groups of a delegate will return you also groups of his delegator.
+Instead: asking for users inside a group will not return users that seems part of
 the groups thanks to delegation process.
 
 Limitations and Troubleshooting
 ===============================
+
+Rule Number One
+---------------
 
 The most important thing to know: the **plugin works only for currently logged
 in user** (someway similar to the Authenticated Users virtual group): if you
@@ -62,16 +65,35 @@ query the permissions of a delegate by code you will get nothing.
 This is not a technical limit but a practical consequence of aggressive cache
 done by the plugin itself, bringing us acceptable performance.
 
+*No* inheritance
+----------------
+
 Delegation works with **one-level of inheritance**: in user A is delegator of
 user B, and user B is delegator of user C, C will not get any power from A.
 This could probably possibile in future (if so: optionally) but there are some
 implications about performance and avoiding circular delegations loops.
+
+Knowing delegation status
+-------------------------
 
 There's no simple way to know if a user is able to perform an action because he
 has sufficient permissions or because he get the needed permission thanks to
 a delegator's role.
 Neither the *Delegate* role can help too much for this, as it's given every
 time a role's proxy is active on the current context.
+
+Limiting plugin effects
+-----------------------
+
+As said, this product implements three kind of plugins:
+
+* local roles
+* global roles
+* groups
+
+...all of them enabled by default.
+You can freely access ZMI and disable one or more plugins (for example: you could
+not like the groups propagation effect).
 
 Authors
 =======
